@@ -1,0 +1,26 @@
+<html>
+
+<head>
+    <title>ben</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/squeaker.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta property="og:title" content="ben" />
+    <meta property="og:image" content="{{ url_for('static', filename='images/ben.png', _external=True) }}" />
+    <meta property="og:description" content="click the human" />
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='images/favicon_32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='images/favicon_16x16.png') }}">
+</head>
+
+<body>
+    <div class="c">
+        <!-- Using a button makes it keyboard accessible and semantic -->
+        <button type="button" class="ben-button" aria-label="Squeak Ben">
+            <img class="ben" src="{{ url_for('static', filename='images/ben.png') }}" alt="">
+        </button>
+    </div>
+    <div class="time"></div>
+    <div class="count"></div>
+    <script src="{{ url_for('static', filename='js/squeaker.js') }}"></script>
+</body>
+
+</html>

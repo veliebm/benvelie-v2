@@ -10,5 +10,10 @@ def home():
     return render_template("index.html")
 
 
+@app.route("/squeaker")
+def squeaker():
+    return render_template("squeaker.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True)
