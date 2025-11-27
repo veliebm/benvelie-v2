@@ -8,6 +8,8 @@ body {
     margin: 0;
     /* Prevents scrollbars if animation goes out of bounds */
     overflow: hidden;
+    background-color: #ffffff;
+    color: #000000;
 }
 
 .c {
@@ -75,11 +77,4 @@ body {
 
 .count {
     bottom: 1em;
-}
-
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #111222;
-        color: white;
-    }
 }
