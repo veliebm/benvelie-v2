@@ -29,7 +29,7 @@
                 {% for post in posts %}
                 <li>
                     <!-- Link to the full post -->
-                    <a href="{{ url_for('post', slug=post.slug) }}"><strong>{{ post.title }}</strong></a>
+                    <a href="{{ url_for('posts', slug=post.slug) }}"><strong>{{ post.title }}</strong></a>
                     <span style="color: gray; font-size: 0.9em;"> | {{ post.date }}</span>
                     <p>{{ post.description }}</p>
                 </li>

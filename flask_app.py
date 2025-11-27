@@ -64,8 +64,8 @@ def index():
     return render_template("index.html", posts=posts)
 
 
-@app.route("/post/<slug>")
-def post(slug):
+@app.route("/posts/<slug>")
+def posts(slug):
     metadata, content = get_post(slug)
     if not metadata:
         abort(404)
