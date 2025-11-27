@@ -13,8 +13,10 @@
 </head>
 
 <body>
+    <header class="site-header">
+        <a href="{{ url_for('index') }}" class="site-title">benvelie.com</a>
+    </header>
     <div>
-        <h1>Welcome to benvelie.com!</h1>
         <img src="{{ url_for('static', filename='images/me.jpg') }}" alt="me!">
         <p>
             Hi! My name is Benjamin Velie. I'm a software engineer at Google. I also like making silly web toys.
