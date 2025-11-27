@@ -5,7 +5,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- As a base style, use Simple.css -->
     <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <!-- Overwrite with my own style where I want to. -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/shared.css') }}">
     <title>benvelie.com</title>
 </head>
 

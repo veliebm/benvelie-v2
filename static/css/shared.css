@@ -1,0 +1,14 @@
+/* Shared styles meant to be applied on multiple pages of the site. */
+
+:root {
+    --bg: #212121;
+    --accent-bg: #2b2b2b;
+    --text: #dcdcdc;
+    --text-light: #ababab;
+    --border: #666;
+    --accent: #FFA500;
+    --code: #f0f0f0;
+    --preformatted: #444;
+    --marked: #ffdd33;
+    --disabled: #111;
+}
