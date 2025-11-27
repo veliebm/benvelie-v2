@@ -3,7 +3,7 @@
 }
 
 body {
-    font-family: 'Comic Sans MS', "Comic Sans", cursive;
+    font-family: 'Comic Sans MS', "Comic Sans", "Comic Neue";
     /* Good practice to reset body margin */
     margin: 0;
     /* Prevents scrollbars if animation goes out of bounds */
