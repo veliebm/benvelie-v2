@@ -1,8 +1,12 @@
 import os
 import markdown
 from flask import Flask, render_template, abort
+from pathlib import Path
 
 app = Flask(__name__)
+
+ROOT_DIR = Path(__file__).parent
+POSTS_DIR = ROOT_DIR / "posts"
 
 # --- HELPER FUNCTIONS ---
 
@@ -10,7 +14,7 @@ app = Flask(__name__)
 def get_post(slug):
     """Reads a markdown file and returns metadata + HTML content."""
     try:
-        with open(f"posts/{slug}.md", "r") as f:
+        with open(POSTS_DIR / f"{slug}.md", "r") as f:
             content = f.read()
             parts = content.split("---", 2)
             if len(parts) == 3:
@@ -32,12 +36,12 @@ def get_post(slug):
 def get_all_posts():
     """Returns a list of all post metadata, sorted by date."""
     posts = []
-    if not os.path.exists("posts"):
+    if not POSTS_DIR.exists():
         return posts
 
-    for filename in os.listdir("posts"):
-        if filename.endswith(".md"):
-            slug = filename[:-3]
+    for filename in POSTS_DIR.iterdir():
+        if filename.suffix == ".md":
+            slug = filename.stem
             metadata, _ = get_post(slug)
             if metadata:
                 metadata["slug"] = slug
