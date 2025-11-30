@@ -1,0 +1,8 @@
+/* CSS for the index page. */
+
+#blog ul,
+#toys ul {
+  list-style: none; /* Removes the bullet points */
+  padding-left: 0; /* Removes the default indentation */
+  margin-left: 0; /* Ensures it aligns with the edge */
+}
