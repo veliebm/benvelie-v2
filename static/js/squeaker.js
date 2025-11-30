@@ -106,16 +106,4 @@ document.addEventListener("DOMContentLoaded", () => {
   timer.textContent = `you have observed ben for ${initialSecs} seconds`;
 
   setInterval(observing, 1000);
-
-  // -- Clear Data Logic --
-
-  timer.addEventListener("click", () => {
-    localStorage.removeItem("secs");
-    timer.textContent = "";
-  });
-
-  counter.addEventListener("click", () => {
-    localStorage.removeItem("clicks");
-    counter.textContent = "";
-  });
 });
