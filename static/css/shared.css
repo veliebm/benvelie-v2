@@ -1,35 +1,46 @@
 /* Shared styles meant to be applied on multiple pages of the site. */
 
 :root {
-    --bg: #212121;
-    --accent-bg: #2b2b2b;
-    --text: #dcdcdc;
-    --text-light: #ababab;
-    --border: #666;
-    --accent: #FFA500;
-    --code: #f0f0f0;
-    --preformatted: #444;
-    --marked: #ffdd33;
-    --disabled: #111;
+  --bg: #212121;
+  --accent-bg: #2b2b2b;
+  --text: #dcdcdc;
+  --text-light: #ababab;
+  --border: #666;
+  --accent: #ffa500;
+  --code: #f0f0f0;
+  --preformatted: #444;
+  --marked: #ffdd33;
+  --disabled: #111;
 }
 
 .site-header {
-    background: var(--accent-bg);
-    border-bottom: 1px solid var(--border);
-    padding: 1rem 2rem;
-    top: 0;
-    z-index: 1000;
-    margin-bottom: 1rem;
+  background: var(--accent-bg);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 2rem;
+  top: 0;
+  z-index: 1000;
+  margin-bottom: 1rem;
 }
 
 .site-title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-decoration: none;
-    color: var(--text);
-    --accent: #dcdcdc;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--text);
+  --accent: #dcdcdc;
 }
 
 .site-title:hover {
-    color: var(--accent);
+  color: var(--accent);
+}
+
+/* Mobile adjustments */
+@media only screen and (max-width: 768px) {
+  article {
+    border: none;
+    box-shadow: none; /* Removes the shadow that often looks like a border */
+    border-radius: 0; /* Removes rounded corners for a full-width look */
+    padding-left: 15px !important; /* Optional: Adjusts padding for smaller screens */
+    padding-right: 15px !important;
+  }
 }
