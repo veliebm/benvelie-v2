@@ -5,31 +5,26 @@ document.addEventListener("DOMContentLoaded", () => {
   const timer = document.querySelector(".time");
   const counter = document.querySelector(".count");
 
-  // Preload audio
-  const pressAudio = new Audio("/static/audio/grab.mp3");
-  const releaseAudio = new Audio("/static/audio/release.mp3");
-
-  // Audio concurrency throttling
-  let audioCount = 0;
-  const maxAudios = 8;
-
-  const playSound = (sourceAudio) => {
-    if (audioCount < maxAudios) {
-      audioCount++;
-      // Clone node allows overlapping sounds
-      const tmp = sourceAudio.cloneNode();
-      tmp.volume = 0.1;
-      tmp.addEventListener(
-        "ended",
-        () => {
-          audioCount--;
-          tmp.remove(); // Clean up memory
-        },
-        { once: true }
-      );
-      tmp.play().catch((e) => console.error("Audio play failed:", e));
+  const createAudioPool = (src, size) => {
+    const pool = [];
+    for (let i = 0; i < size; i++) {
+      const audio = new Audio(src);
+      audio.volume = 0.1;
+      pool.push(audio);
     }
+    let index = 0;
+
+    return () => {
+      const audio = pool[index];
+      audio.currentTime = 0; // Rewind
+      audio.play().catch(() => { }); // Ignore play errors (interrupted)
+      index = (index + 1) % size; // Cycle through pool
+    };
   };
+
+  // Initialize audio pools
+  const playPress = createAudioPool("/static/audio/grab.mp3", 8);
+  const playRelease = createAudioPool("/static/audio/release.mp3", 8);
 
   const updateClickDisplay = (count) => {
     counter.textContent = `you have clicked ben ${count} times :)`;
@@ -50,8 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const press = (e) => {
     // Prevent default only if necessary (e.g., prevents scrolling on mobile while spamming)
     if (e.type !== "keydown") e.preventDefault();
-
-    playSound(pressAudio);
+    playPress();
     benButton.classList.add("press");
     countClick();
     document.title = "ben (squeak!)";
@@ -59,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const release = (e) => {
     if (benButton.classList.contains("press")) {
-      playSound(releaseAudio);
+      playRelease();
       benButton.classList.remove("press");
       document.title = "ben";
     }
