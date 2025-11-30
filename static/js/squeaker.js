@@ -1,11 +1,9 @@
-"use strict";
+"use strict"; // Enforces cleaner code and catches errors.
 
 document.addEventListener("DOMContentLoaded", () => {
   const benButton = document.querySelector(".ben-button");
   const timer = document.querySelector(".time");
   const counter = document.querySelector(".count");
-
-  // 1. Get paths from HTML (avoids hardcoding /static/ in JS)
   const srcPress = "/static/audio/grab.mp3";
   const srcRelease = "/static/audio/release.mp3";
 
@@ -16,11 +14,12 @@ document.addEventListener("DOMContentLoaded", () => {
     dirty: false // Flag to know if we need to save
   };
 
-  // Update UI immediately
+  // Function for updating the UI.
   const updateUI = () => {
     counter.textContent = `you have clicked ben ${state.clicks} times :)`;
     timer.textContent = `you have observed ben for ${state.secs} seconds`;
   };
+  // Update UI immediately
   updateUI();
 
   // Save to LocalStorage ONLY once per second (Throttling)
@@ -60,11 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const source = ctx.createBufferSource();
     source.buffer = buffer;
-
-    // JUICE: Randomize pitch slightly (0.9 to 1.1)
-    // This makes the squeak feel more organic
-    source.playbackRate.value = 0.9 + Math.random() * 0.2;
-
     source.connect(ctx.destination);
     source.start(0);
   };
