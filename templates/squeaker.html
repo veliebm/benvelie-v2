@@ -36,8 +36,11 @@
   </head>
 
   <body>
-    <div class="c">
-      <!-- Using a button makes it keyboard accessible and semantic -->
+    <!-- 1. Time goes first (Top) -->
+    <div class="time"></div>
+
+    <!-- 2. The Squeaker goes in the middle -->
+    <div class="container">
       <button type="button" class="ben-button" aria-label="Squeak Ben">
         <img
           class="ben"
@@ -46,8 +49,10 @@
         />
       </button>
     </div>
-    <div class="time"></div>
+
+    <!-- 3. Count goes last (Bottom) -->
     <div class="count"></div>
+
     <script src="{{ url_for('static', filename='js/squeaker.js') }}"></script>
   </body>
 </html>
