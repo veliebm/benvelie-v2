@@ -5,73 +5,111 @@ document.addEventListener("DOMContentLoaded", () => {
   const timer = document.querySelector(".time");
   const counter = document.querySelector(".count");
 
-  const createAudioPool = (src, size) => {
-    const pool = [];
-    for (let i = 0; i < size; i++) {
-      const audio = new Audio(src);
-      audio.volume = 0.1;
-      pool.push(audio);
+  // 1. Get paths from HTML (avoids hardcoding /static/ in JS)
+  const srcPress = "/static/audio/grab.mp3";
+  const srcRelease = "/static/audio/release.mp3";
+
+  // -- State Management --
+  let state = {
+    clicks: parseInt(localStorage.getItem("clicks") || "0", 10),
+    secs: parseInt(localStorage.getItem("secs") || "0", 10),
+    dirty: false // Flag to know if we need to save
+  };
+
+  // Update UI immediately
+  const updateUI = () => {
+    counter.textContent = `you have clicked ben ${state.clicks} times :)`;
+    timer.textContent = `you have observed ben for ${state.secs} seconds`;
+  };
+  updateUI();
+
+  // Save to LocalStorage ONLY once per second (Throttling)
+  setInterval(() => {
+    if (state.dirty) {
+      localStorage.setItem("clicks", state.clicks);
+      localStorage.setItem("secs", state.secs);
+      state.dirty = false;
     }
-    let index = 0;
+  }, 1000);
 
-    return () => {
-      const audio = pool[index];
-      audio.currentTime = 0; // Rewind
-      audio.play().catch(() => { }); // Ignore play errors (interrupted)
-      index = (index + 1) % size; // Cycle through pool
-    };
+  // -- Audio System (Web Audio API for Low Latency --
+  const AudioContext = window.AudioContext || window.webkitAudioContext;
+  const ctx = new AudioContext();
+
+  const loadBuffer = async (url) => {
+    try {
+      const response = await fetch(url);
+      const arrayBuffer = await response.arrayBuffer();
+      return await ctx.decodeAudioData(arrayBuffer);
+    } catch (e) {
+      console.error("Failed to load audio", e);
+    }
   };
 
-  // Initialize audio pools
-  const playPress = createAudioPool("/static/audio/grab.mp3", 8);
-  const playRelease = createAudioPool("/static/audio/release.mp3", 8);
+  let bufferPress, bufferRelease;
 
-  const updateClickDisplay = (count) => {
-    counter.textContent = `you have clicked ben ${count} times :)`;
+  // Preload audio immediately
+  loadBuffer(srcPress).then(b => bufferPress = b);
+  loadBuffer(srcRelease).then(b => bufferRelease = b);
+
+  const playSound = (buffer) => {
+    if (!buffer || ctx.state === "suspended") {
+      ctx.resume(); // Browser requires user interaction to start audio context
+    }
+    if (!buffer) return;
+
+    const source = ctx.createBufferSource();
+    source.buffer = buffer;
+
+    // JUICE: Randomize pitch slightly (0.9 to 1.1)
+    // This makes the squeak feel more organic
+    source.playbackRate.value = 0.9 + Math.random() * 0.2;
+
+    source.connect(ctx.destination);
+    source.start(0);
   };
-
-  const countClick = () => {
-    let clicks = parseInt(localStorage.getItem("clicks") || "0", 10);
-    clicks++;
-    localStorage.setItem("clicks", clicks);
-    updateClickDisplay(clicks);
-  };
-
-  // Initialize displays
-  updateClickDisplay(localStorage.getItem("clicks") || 0);
 
   // -- Interaction Logic --
 
   const press = (e) => {
-    // Prevent default only if necessary (e.g., prevents scrolling on mobile while spamming)
     if (e.type !== "keydown") e.preventDefault();
-    playPress();
+
+    playSound(bufferPress);
     benButton.classList.add("press");
-    countClick();
+
+    state.clicks++;
+    state.dirty = true;
+    updateUI(); // Only update text, don't write to disk yet
+
     document.title = "ben (squeak!)";
   };
 
-  const release = (e) => {
+  const release = () => {
     if (benButton.classList.contains("press")) {
-      playRelease();
+      playSound(bufferRelease);
       benButton.classList.remove("press");
       document.title = "ben";
     }
   };
 
-  // Pointer events handle Mouse, Touch, and Pen uniformly
+  // -- Event Listeners --
+
   benButton.addEventListener("pointerdown", (e) => {
     press(e);
-    // Capture pointer ensures the 'up' event fires even if they drag off the image
     benButton.setPointerCapture(e.pointerId);
   });
 
   benButton.addEventListener("pointerup", (e) => {
-    release(e);
+    release();
     benButton.releasePointerCapture(e.pointerId);
   });
 
-  // Keyboard support (Space and Enter)
+  // Handle dragging off the button but releasing elsewhere
+  benButton.addEventListener("pointercancel", (e) => {
+    release();
+    benButton.releasePointerCapture(e.pointerId);
+  });
+
   benButton.addEventListener("keydown", (e) => {
     if ((e.key === "Enter" || e.key === " ") && !e.repeat) {
       press(e);
@@ -80,24 +118,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
   benButton.addEventListener("keyup", (e) => {
     if (e.key === "Enter" || e.key === " ") {
-      release(e);
+      release();
     }
   });
 
   // -- Timer Logic --
-
-  const observing = () => {
+  setInterval(() => {
     if (document.hasFocus()) {
-      let secs = parseInt(localStorage.getItem("secs") || "0", 10);
-      secs++;
-      localStorage.setItem("secs", secs);
-      timer.textContent = `you have observed ben for ${secs} seconds`;
+      state.secs++;
+      state.dirty = true;
+      // We don't update UI here to prevent text layout shift jitter
+      // Or we can update just the text content efficiently
+      timer.textContent = `you have observed ben for ${state.secs} seconds`;
     }
-  };
-
-  // Initialize timer text immediately
-  const initialSecs = localStorage.getItem("secs") || 0;
-  timer.textContent = `you have observed ben for ${initialSecs} seconds`;
-
-  setInterval(observing, 1000);
+  }, 1000);
 });
