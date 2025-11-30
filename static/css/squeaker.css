@@ -12,31 +12,18 @@ body {
   overflow: hidden;
   background-color: #ffffff;
   color: #000000;
-  /* Flex Column Layout to stack elements vertically */
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-
-  min-height: 100vh; /* Fallback for old browsers */
-  height: 100dvh; /* Fixes mobile address bar overlap */
-
-  font-variant-numeric: tabular-nums;
 }
 
-.container {
-  position: relative;
+.c {
+  position: absolute;
   display: flex;
-
-  /* Takes up all remaining vertical space between top and bottom text */
-  flex: 1;
-
+  top: 0;
+  left: 0;
   width: 100%;
+  height: 100%;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
-  /* Allows the container to shrink effectively */
-  min-height: 0;
 }
 
 /* Reset Button Styles to look like just an image */
@@ -51,21 +38,16 @@ body {
   /* Remove blue tap highlight on mobile */
   -webkit-tap-highlight-color: transparent;
 
+  /* Ensure image scales with the button */
   display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .ben {
-  /* The zoom effect */
+  /* Image logic moves to button or image inherits */
   transform: scale(1.5);
   pointer-events: none;
+  /* Let the button handle the events */
   user-select: none;
-
-  /* Constraints to prevent image from growing too large and covering text */
-  max-width: 80%;
-  max-height: 50vh; /* Limits height so scale(1.5) fits within viewport */
-  object-fit: contain;
 }
 
 /* Interaction States */
@@ -82,18 +64,19 @@ body {
 
 .time,
 .count {
+  position: absolute;
   width: 100%;
   text-align: center;
   font-size: large;
   pointer-events: auto;
+  /* Re-enable clicks for the reset functionality */
   user-select: none;
+}
 
-  /* Add padding so they don't touch the screen edges */
-  padding: 1.5em 0;
+.time {
+  top: 1em;
+}
 
-  /* Ensure text is above image if animation overlaps slightly */
-  z-index: 10;
-
-  /* Prevent text from collapsing if screen is tiny */
-  flex-shrink: 0;
+.count {
+  bottom: 1em;
 }
