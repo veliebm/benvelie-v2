@@ -1,50 +1,59 @@
 <!DOCTYPE html>
 <html lang="en-US">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- As a base style, use Simple.css -->
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
     <!-- Overwrite with my own style where I want to. -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/shared.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/shared.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/index.css') }}"
+    />
     <title>benvelie.com</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <header class="site-header">
-        <a href="{{ url_for('index') }}" class="site-title">benvelie.com</a>
+      <a href="{{ url_for('index') }}" class="site-title">benvelie.com</a>
     </header>
     <div>
-        <img src="{{ url_for('static', filename='images/me.jpg') }}" alt="me!">
-        <p>
-            Hi! My name is Benjamin Velie. I'm a software engineer at Google. I also like making silly web toys.
-            You can contact me by emailing <a href="mailto:veliebm@gmail.com">veliebm@gmail.com</a>.
-        </p>
-        <section id="toys">
-            <h2>Toys</h2>
-            <ul>
-                <li><a href="/squeaker">squeak</a></li>
-            </ul>
-        </section>
-        <section id="blog">
-            <h2>Blog</h2>
-            <ul>
-                {% for post in posts %}
-                <li>
-                    <!-- Link to the full post -->
-                    <a href="{{ url_for('posts', slug=post.slug) }}"><strong>{{ post.title }}</strong></a>
-                    <span style="color: gray; font-size: 0.9em;"> | {{ post.date }}</span>
-                    <p>{{ post.description }}</p>
-                </li>
-                {% else %}
-                <li><em>No posts yet.</em></li>
-                {% endfor %}
-            </ul>
-        </section>
+      <img src="{{ url_for('static', filename='images/me.jpg') }}" alt="me!" />
+      <p>
+        Hi! My name is Benjamin Velie. I'm a software engineer at Google. I also
+        like making silly web toys. You can contact me by emailing
+        <a href="mailto:veliebm@gmail.com">veliebm@gmail.com</a>.
+      </p>
+      <section id="toys">
+        <h2>Toys</h2>
+        <ul>
+          <li><a href="/squeaker">squeak</a></li>
+        </ul>
+      </section>
+      <section id="blog">
+        <h2>Blog</h2>
+        <ul>
+          {% for post in posts %}
+          <li>
+            <!-- Link to the full post -->
+            <a href="{{ url_for('posts', slug=post.slug) }}"
+              ><strong>{{ post.title }}</strong></a
+            >
+            <span style="color: gray; font-size: 0.9em">
+              | {{ post.date }}</span
+            >
+            <p>{{ post.description }}</p>
+          </li>
+          {% else %}
+          <li><em>No posts yet.</em></li>
+          {% endfor %}
+        </ul>
+      </section>
     </div>
-</body>
-
+  </body>
 </html>

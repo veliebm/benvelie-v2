@@ -1,28 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>{{ title }}</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/shared.css') }}">
-</head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.simplecss.org/simple.min.css" />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/shared.css') }}"
+    />
+  </head>
 
-<body>
+  <body>
     <header class="site-header">
-        <a href="{{ url_for('index') }}" class="site-title">benvelie.com</a>
+      <a href="{{ url_for('index') }}" class="site-title">benvelie.com</a>
     </header>
-    <article style="max-width: 800px; margin: 0 auto; padding: 20px;">
-        <h1>{{ title }}</h1>
-        <p style="color: gray;">{{ date }}</p>
-        <hr>
+    <article style="max-width: 800px; margin: 0 auto; padding: 20px">
+      <h1>{{ title }}</h1>
+      <p style="color: gray">{{ date }}</p>
+      <hr />
 
-        <!-- The content is injected here -->
-        <div class="blog-content">
-            {{ content | safe }}
-        </div>
+      <!-- The content is injected here -->
+      <div class="blog-content">{{ content | safe }}</div>
     </article>
-</body>
-
+  </body>
 </html>
