@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en-US">
   <head>
     <meta charset="UTF-8" />
@@ -25,10 +25,18 @@
     <div>
       <img src="{{ url_for('static', filename='images/me.jpg') }}" alt="me!" />
       <p>
-        Hi! My name is Benjamin Velie. I'm a software engineer at Google. I also
-        like making silly web toys. You can contact me by emailing
-        <a href="mailto:veliebm@gmail.com">veliebm@gmail.com</a>.
+        Hi! I'm Benjamin Velie, a software engineer at Google working on
+        large-scale distributed systems. I'm interested in infrastructure
+        reliability, AI safety, and occasionally making silly web toys.
       </p>
+      <section id="work">
+        <h2>Work</h2>
+        I'm currently building evaluation infrastructure for GCP Billing.
+        Previously, I was the tech lead for the GCP Support API, where I focused
+        on reliability, capacity planning, and incident response across 310+
+        servers worldwide. I care about building systems that fail gracefully
+        and improving how teams learn from outages.
+      </section>
       <section id="toys">
         <h2>Toys</h2>
         <ul>
@@ -53,6 +61,12 @@
           <li><em>No posts yet.</em></li>
           {% endfor %}
         </ul>
+      </section>
+      <section id="elsewhere">
+        <h2>Elsewhere</h2>
+        <a href="https://www.linkedin.com/in/benjamin-velie">LinkedIn</a> |
+        <a href="https://github.com/veliebm">GitHub</a> |
+        <a href="mailto:veliebm@gmail.com">Email</a>
       </section>
     </div>
   </body>
